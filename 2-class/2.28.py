@@ -1,0 +1,56 @@
+"""
+The PredatoryCreditCard class of Section 2.4.1 provides a process month method that models the completion of a monthly cycle. Modify the class so that once a customer has made ten calls to charge in the current month, each additional call to that function results in an additional $1 surcharge
+"""
+
+class CreditCard:
+    def __init__(self, customer, bank, acnt, limit):
+        self._customer = customer
+        self._bank = bank
+        self._account = acnt
+        self._limit = limit
+        self._balance = 0
+
+    def get_customer(self):
+        return self._customer
+
+    def get_bank(self):
+        return self._bank
+
+    def get_account(self):
+        return self._account
+
+    def get_limit(self):
+        return self._limit
+
+    def get_balance(self):
+        return self._balance
+
+    def charge(self, price):
+        if price + self._balance > self._limit:
+            return False
+        else:
+            self._balance += price
+            return True
+
+    def make_payment(self, amount):
+        self._balance -= amount
+
+class PredatoryCreditCard(CreditCard):
+    def __init__(self, customer, bank, acnt, limit, apr):
+        super().__init__(customer, bank, acnt, limit)
+        self._apr = apr
+        self._charge_num = 0
+
+    def charge(self, price):
+        success = super().charge(price)
+        if not success:
+            self._balance += 5
+        if self._charge_num > 10:
+            self._balance += 1      
+        self._charge_num += 1
+        return success
+
+    def process_month(self):
+        if self._balance > 0:
+            month_factor = pow(1 + self._apr, 1/12)
+            self._balance *= monthly_factor
