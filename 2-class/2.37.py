@@ -4,6 +4,8 @@ Write a simulator, as in the previous project, but add a Boolean gender field an
 
 import random
 
+sp_choice=("Bear", "Fish")
+
 class Animal(object):
     def __init__(self, animal_type):
         self._type = animal_type
@@ -41,7 +43,7 @@ class Fish(Animal):
         else: return other, "collide" # eaten by bear
 
 def migration(river, none_list):
-    sp = random.choice(["Bear", "Fish"])
+    sp = random.choice(sp_choice)
     loc_num = random.randint(0, len(river)-1)
     if sp == "Bear": # Bear
         if river[loc_num] != None:
@@ -76,22 +78,20 @@ def main():
     river_len = 10
     while True:
         river = [None] * river_len
-        none_list = []
-        for i in range(river_len):
-            none_list.append(i)
+        none_list = [i for i in range(river_len)]
         river[0] = Bear()
         none_list.remove(0)
         river[river_len-1] = Fish()
         none_list.remove(river_len-1)
         num = input("Please input the migration loop num: ")
         for i in range(num):
-            r_status = ""
+            r_status = []
             migration(river, none_list)
             for animal in river:
                 if animal != None:
-                    r_status += animal.get_type() + " "
-                else: r_status += "None" + " "
-            print r_status # river status
+                    r_status.append(animal.get_type())
+                else: r_status.append("None")
+            print ' '.join(r_status) # river status
         con = input("Continue? [y/n]: ")
         if con != 'y':
             break

@@ -4,8 +4,10 @@ Write a Python program to simulate an ecosystem containing two types of creature
 
 import random
 
+sp_choice=("Bear", "Fish")
+
 def migration(river, none_list):
-    sp = random.choice(["Bear", "Fish"])
+    sp = random.choice(sp_choice)
     loc_num = random.randint(0, len(river)-1)
     if sp == "Bear": # Bear
         if river[loc_num] != None:
@@ -36,9 +38,7 @@ def main():
     river_len = 10
     while True:
         river = [None] * river_len
-        none_list = []
-        for i in range(river_len):
-            none_list.append(i)
+        none_list = [k for k in range(river_len)]
         river[0] = "Bear"
         none_list.remove(0)
         river[river_len-1] = "Fish"
